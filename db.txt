@@ -1,0 +1,57 @@
+DROP DATABASE IF EXISTS photo_ate;
+
+CREATE DATABASE photo_ate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE photo_ate;
+
+CREATE TABLE role (
+    role_id INT          AUTO_INCREMENT PRIMARY KEY,
+    name    VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE type_serv (
+    id_type INT          AUTO_INCREMENT PRIMARY KEY,
+    name    VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE user (
+    id_user  INT          AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(250) NOT NULL,
+    login    VARCHAR(250) NOT NULL,
+    password VARCHAR(250) NOT NULL,
+    role_id  INT,
+    FOREIGN KEY (role_id) REFERENCES role(role_id)
+);
+
+CREATE TABLE service (
+    id_service INT          AUTO_INCREMENT PRIMARY KEY,
+    naming     VARCHAR(250) NOT NULL,
+    descrip    VARCHAR(250),
+    price      INT          NOT NULL,
+    discount   INT          DEFAULT 0,
+    id_type    INT,
+    photo      VARCHAR(250),
+    FOREIGN KEY (id_type) REFERENCES type_serv(id_type)
+);
+
+INSERT INTO role (name) VALUES
+('Администратор'),
+('Клиент'),
+('Гость');
+
+INSERT INTO type_serv (name) VALUES
+('Ремонт обуви'),
+('Изготовление на заказ'),
+('Уход за обувью'),
+('Аксессуары');
+
+INSERT INTO user (username, login, password, role_id) VALUES
+('Антон Азарсков', 'admin',   '123',   1),
+('Мария Иванова',  'client', '123', 2),
+('Иван Петров',    'guest',   '123',   3);
+
+INSERT INTO service (naming, descrip, price, discount, id_type, photo) VALUES
+('Замена подошвы',        'Полная замена подошвы любой обуви',              1500, 10, 1, NULL),
+('Замена каблука',        'Замена каблука на женских туфлях',                800,  0, 1, NULL),
+('Растяжка обуви',        'Растяжка по ширине и длине',                      600,  5, 3, NULL),
+('Покраска кожи',         'Восстановление и смена цвета кожаной обуви',     1200, 15, 3, NULL),
+('Ботинки ручной работы', 'Изготовление ботинок по индивидуальным меркам', 12000,  0, 2, 'botinki.jpg');
