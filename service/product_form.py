@@ -54,6 +54,7 @@ class ProductForm(QWidget, Ui_Form):
                 price_text = str(product.price)
             if self.user and self.user.role_id == 1:
                 btn = QPushButton("Удалить")
+                btn.setStyleSheet("background-color: #FF6347; border: 1px solid black; color: white; padding: 5px;")
                 btn.clicked.connect(lambda ch, sid=product.id_service: self.delete(sid))
                 product_layout.addWidget(btn)
             photo_l = QLabel()
