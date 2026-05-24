@@ -2,7 +2,7 @@ from PyQt6.QtGui import QPixmap
 from view.product_wind_ui import Ui_Form
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 from service.database import DBService
-import os #ДОБАВЛЕНО
+import os #
 
 class ProductForm(QWidget, Ui_Form):
     def __init__(self, user=None):
@@ -45,9 +45,29 @@ class ProductForm(QWidget, Ui_Form):
 
         for product in product_list:
             product_widget = QWidget()
+            # product_layout = QHBoxLayout()
+            # product_widget.setLayout(product_layout)
+            # self.product_layout.addWidget(product_widget)
+            if product.discount > 15:
+                product_widget.setStyleSheet("""
+                                QWidget .QWidget { 
+                                    background-color: #4caf50; 
+                                    border: 1px solid white; 
+                                }
+                            """)
+            else:
+                # Для обычных карточек оставляем прозрачный фон (или ваш текущий цвет темы)
+                product_widget.setStyleSheet("""
+                                QWidget .QWidget { 
+                                    background-color: transparent; 
+                                    border: 1px solid #555555; 
+                                }
+                            """)
+
             product_layout = QHBoxLayout()
             product_widget.setLayout(product_layout)
             self.product_layout.addWidget(product_widget)
+
             if product.discount > 0:
                 disc_price = round(product.price * (1 - product.discount / 100), 2)
                 price_text = f"<s style= 'color: red'>{product.price}</s> {disc_price}"
@@ -58,10 +78,10 @@ class ProductForm(QWidget, Ui_Form):
                 btn.setStyleSheet("background-color: #FF6347; border: 1px solid black; color: white; padding: 5px;")
                 btn.clicked.connect(lambda ch, sid=product.id_service: self.delete(sid))
                 product_layout.addWidget(btn)
-            # else:  # ДОБАВЛЕНО
-            #     spacer = QWidget()
-            #     spacer.setFixedWidth(80)
-            #     product_layout.addWidget(spacer)
+            else:  # ДОБАВЛЕНО
+                spacer = QWidget()
+                spacer.setFixedWidth(80)
+                product_layout.addWidget(spacer)
 
             photo_l = QLabel()
             photo_l.setFixedSize(200, 200)
@@ -83,8 +103,8 @@ class ProductForm(QWidget, Ui_Form):
             product_layout.addWidget(info_l)
             disc_l = QLabel(f"Текущая скидка {product.discount}")
             disc_l.setFixedHeight(200)
-            # disc_l.setFixedWidth(150)    #добавлено
-            # info_l.setFixedWidth(350)    #добавлено
+            disc_l.setFixedWidth(150)    #добавлено
+            info_l.setFixedWidth(350)    #добавлено
             disc_l.setStyleSheet("border: 1px solid black")
             disc_l.setWordWrap(True)
             product_layout.addWidget(disc_l)
