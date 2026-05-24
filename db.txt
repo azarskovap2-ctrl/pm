@@ -33,6 +33,15 @@ CREATE TABLE service (
     FOREIGN KEY (id_type) REFERENCES type_serv(id_type)
 );
 
+CREATE TABLE orders (
+    id_order   INT AUTO_INCREMENT PRIMARY KEY,
+    user_id    INT NOT NULL,
+    service_id INT NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (service_id) REFERENCES service(id_service) ON DELETE RESTRICT
+);
+
 INSERT INTO role (name) VALUES
 ('Администратор'),
 ('Клиент'),
