@@ -6,6 +6,10 @@ class AddProd(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+
+        self.price_box.setMaximum(1000000)
+        self.disc_box.setMaximum(100)
+
         self.db = DBService()
         self._load_ref()
         self.save_btn.clicked.connect(lambda: self.save())
