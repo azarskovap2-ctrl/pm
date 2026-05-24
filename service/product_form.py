@@ -57,6 +57,11 @@ class ProductForm(QWidget, Ui_Form):
                 btn.setStyleSheet("background-color: #FF6347; border: 1px solid black; color: white; padding: 5px;")
                 btn.clicked.connect(lambda ch, sid=product.id_service: self.delete(sid))
                 product_layout.addWidget(btn)
+            # else:  # ДОБАВЛЕНО: если не админ, занимаем то же пространство пустой заглушкой
+            #     spacer = QWidget()
+            #     spacer.setFixedWidth(80)
+            #     product_layout.addWidget(spacer)
+
             photo_l = QLabel()
             photo_l.setFixedSize(200, 200)
             photo_l.setStyleSheet("border: 1px solid black")
@@ -72,6 +77,8 @@ class ProductForm(QWidget, Ui_Form):
             product_layout.addWidget(info_l)
             disc_l = QLabel(f"Текущая скидка {product.discount}")
             disc_l.setFixedHeight(200)
+            # disc_l.setFixedWidth(150)    #добавлено
+            # info_l.setFixedWidth(350)    #добавлено
             disc_l.setStyleSheet("border: 1px solid black")
             disc_l.setWordWrap(True)
             product_layout.addWidget(disc_l)
@@ -108,3 +115,4 @@ class ProductForm(QWidget, Ui_Form):
         self.wind = AuthWind()
         self.wind.show()
         self.close()
+
