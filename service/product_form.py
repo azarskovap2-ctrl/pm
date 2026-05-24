@@ -2,6 +2,7 @@ from PyQt6.QtGui import QPixmap
 from view.product_wind_ui import Ui_Form
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 from service.database import DBService
+import os #ДОБАВЛЕНО
 
 class ProductForm(QWidget, Ui_Form):
     def __init__(self, user=None):
@@ -57,7 +58,7 @@ class ProductForm(QWidget, Ui_Form):
                 btn.setStyleSheet("background-color: #FF6347; border: 1px solid black; color: white; padding: 5px;")
                 btn.clicked.connect(lambda ch, sid=product.id_service: self.delete(sid))
                 product_layout.addWidget(btn)
-            # else:  # ДОБАВЛЕНО: если не админ, занимаем то же пространство пустой заглушкой
+            # else:  # ДОБАВЛЕНО
             #     spacer = QWidget()
             #     spacer.setFixedWidth(80)
             #     product_layout.addWidget(spacer)
@@ -65,7 +66,12 @@ class ProductForm(QWidget, Ui_Form):
             photo_l = QLabel()
             photo_l.setFixedSize(200, 200)
             photo_l.setStyleSheet("border: 1px solid black")
-            photo = product.photo if product.photo else QPixmap("data/image.png")
+            #photo = product.photo if product.photo else QPixmap("data/image.png")
+
+            current_dir = os.path.dirname(os.path.abspath(__file__))#ДОБАВЛЕНО
+            default_img_path = os.path.join(current_dir, "..", "data", "image.png")#ДОБАВЛЕНО
+            photo = product.photo if product.photo else QPixmap(default_img_path)#ДОБАВЛЕНО
+
             photo_l.setPixmap(photo.scaled(photo_l.size()))
             product_layout.addWidget(photo_l)
             info_l = QLabel(f"{product.naming}<br>"
